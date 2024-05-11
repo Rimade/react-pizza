@@ -12,7 +12,7 @@ function Categories() {
 		'Закрытые',
 	]
 
-	const onClickCategory = (index) => {
+	const onChangeCategory = (index) => {
 		setActiveIndex(index)
 	}
 
@@ -23,7 +23,7 @@ function Categories() {
 					<li
 						key={index}
 						onClick={() => onChangeCategory(index)}
-						className={value === index ? 'active' : ''}
+						// className={value === index ? 'active' : ''}
 					>
 						{categoryName}
 					</li>
