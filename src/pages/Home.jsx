@@ -9,7 +9,6 @@ const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
 
-	console.log(items)
 	useEffect(() => {
 		fetch('https://6570330709586eff6640e311.mockapi.io/items')
 			.then((res) => res.json())
@@ -17,6 +16,7 @@ const Home = () => {
 				setItems(arr)
 				setIsLoading(false)
 			})
+		window.scrollTo(0, 0)
 	}, [])
 
 	const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
