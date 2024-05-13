@@ -1,7 +1,7 @@
-@import './variables';
-@import './libs/normalize';
+@import 'variables';
+@import 'libs/normalize';
 
-@import './components/all';
+@import 'components/all';
 
 body {
 	background-color: $background;
@@ -14,25 +14,82 @@ body {
 	margin: 50px auto;
 	border-radius: 10px;
 	max-width: 1400px;
+
+	@media (max-width: 645px) {
+		width: calc(100vw - 30px);
+		margin-top: 15px;
+	}
 }
 
 .content {
 	padding: 40px 0;
 
 	&__title {
-		margin: 35px 0;
+		font-weight: 800;
+		font-size: 38px;
+		margin-top: 60px;
+		margin-bottom: 50px;
 	}
 
 	&__items {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: repeat(1, 1fr);
+		grid-column-gap: 11px;
+
+		@media (max-width: 1400px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		@media (max-width: 1060px) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (max-width: 730px) {
+			grid-template-columns: repeat(1, 1fr);
+		}
 	}
 
 	&__top {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
+		@media (max-width: 1160px) {
+			.categories {
+				width: 100%;
+				overflow: auto;
+
+				ul {
+					width: 697px;
+				}
+			}
+			.sort {
+				padding-left: 20px;
+				b {
+					display: none;
+				}
+			}
+		}
+
+		@media (max-width: 390px) {
+			.categories {
+				ul {
+					li {
+						padding: 8px 20px;
+					}
+				}
+			}
+		}
+
+		@media (max-width: 1060px) {
+			.categories {
+				ul {
+					margin: 0 auto;
+				}
+				margin-bottom: 30px;
+			}
+			flex-direction: column;
+		}
 	}
 }
 
@@ -69,7 +126,7 @@ body {
 			margin-right: 10px;
 			path {
 				stroke: $black;
-				strokewidth: 1.9;
+				stroke-width: 1.9;
 			}
 		}
 	}
@@ -103,6 +160,10 @@ body {
 				color: darken($color: #b6b6b6, $amount: 50);
 			}
 		}
+	}
+
+	.content__items {
+		display: block;
 	}
 
 	&__item {
@@ -258,7 +319,7 @@ body {
 					margin-right: 12px;
 					path {
 						fill: transparent;
-						strokewidth: 2;
+						stroke-width: 2;
 					}
 				}
 			}
@@ -273,13 +334,14 @@ body {
 	}
 
 	&--empty {
-		margin: 0 auto;
+		margin: 45px auto;
 		width: 560px;
 		text-align: center;
 
 		h2 {
-			font-size: 32px;
-			margin-bottom: 10px;
+			font-weight: 700;
+			font-size: 34px;
+			margin-bottom: 18px;
 		}
 
 		p {

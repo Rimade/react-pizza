@@ -9,7 +9,7 @@ const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
 
-	// console.log(items)
+	console.log(items)
 	useEffect(() => {
 		fetch('https://6570330709586eff6640e311.mockapi.io/items')
 			.then((res) => res.json())
@@ -26,14 +26,14 @@ const Home = () => {
 	))
 
 	return (
-		<>
+		<div className="container">
 			<div className="content__top">
 				<Categories />
 				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
-		</>
+		</div>
 	)
 }
 
