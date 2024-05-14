@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import Categories from './../components/Categories'
 import Skeleton from './../components/PizzaBlock/Skeleton'
@@ -8,31 +9,52 @@ import PizzaBlock from './../components/PizzaBlock/index'
 const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
+	const [categoryId, setCategoryId] = useState(0)
+	const [sortType, setSortType] = useState({
+		name: 'популярности',
+		sortProperty: 'rating',
+	})
+
+	const API_URL = 'https://6570330709586eff6640e311.mockapi.io/items'
+	const sortBy = sortType.sortProperty.replace('-', '')
+	const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+	const category = categoryId > 0 ? `category=${categoryId}` : ''
+	// const search = searchValue ? `&search=${searchValue}` : ''
 
 	useEffect(() => {
-		fetch('https://6570330709586eff6640e311.mockapi.io/items')
-			.then((res) => res.json())
-			.then((arr) => {
-				setItems(arr)
-				setIsLoading(false)
-			})
+		setIsLoading(true)
+
+		axios({
+			method: 'get',
+			url: `${API_URL}?${category}&sortBy=${sortBy}&order=${order}`,
+		}).then((res) => {
+			setItems(res.data)
+			setIsLoading(false)
+		})
 		window.scrollTo(0, 0)
-	}, [])
+	}, [categoryId, sortType])
 
-	const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+	// const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
 
-	const skeletons = [...new Array(4)].map((_, index) => (
-		<Skeleton key={index} />
-	))
+	// const skeletons = [...new Array(4)].map((_, index) => (
+	// 	<Skeleton key={index} />
+	// ))
 
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories />
-				<Sort />
+				<Categories
+					value={categoryId}
+					onChangeCategory={(id) => setCategoryId(id)}
+				/>
+				<Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
-			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
+			<div className="content__items">
+				{isLoading
+					? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
+					: items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+			</div>
 		</div>
 	)
 }
