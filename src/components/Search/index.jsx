@@ -1,13 +1,14 @@
 import React from 'react'
 
 import styles from './Search.module.scss'
-import { SearchContext } from '../../App'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearchValue } from '../../redux/slices/search'
 
 const Search = () => {
-	const { searchValue, setSearchValue } = React.useContext(SearchContext)
-
+	const dispatch = useDispatch()
+	const searchValue = useSelector((state) => state.search.searchValue)
 	const onClickClear = () => {
-		setSearchValue('')
+		dispatch(setSearchValue(''))
 	}
 
 	return (
@@ -28,7 +29,7 @@ const Search = () => {
 			<input
 				className={styles.input}
 				type="text"
-				onChange={(e) => setSearchValue(e.target.value)}
+				onChange={(e) => dispatch(setSearchValue(e.target.value))}
 				value={searchValue}
 				placeholder="Поиск пиццы..."
 			/>

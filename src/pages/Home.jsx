@@ -6,20 +6,18 @@ import Skeleton from './../components/PizzaBlock/Skeleton'
 import Sort from './../components/Sort'
 import PizzaBlock from './../components/PizzaBlock/index'
 import Pagination from '../components/Pagination'
-import { SearchContext } from '../App'
+
+import { useSelector } from 'react-redux'
 
 const API_URL = 'https://6570330709586eff6640e311.mockapi.io/items'
 
 const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-	const [categoryId, setCategoryId] = useState(0)
-	const [currentPage, setCurrentPage] = useState(1)
-	const [sortType, setSortType] = useState({
-		name: 'популярности',
-		sortProperty: 'rating',
-	})
-	const { searchValue } = React.useContext(SearchContext)
+	const categoryId = useSelector((state) => state.filter.categoryId)
+	const currentPage = useSelector((state) => state.filter.currentPage)
+	const sortType = useSelector((state) => state.filter.sort)
+	const searchValue = useSelector((state) => state.search.searchValue)
 
 	useEffect(() => {
 		setIsLoading(true)
@@ -46,18 +44,12 @@ const Home = () => {
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories
-					value={categoryId}
-					onChangeCategory={(id) => setCategoryId(id)}
-				/>
-				<Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
+				<Categories />
+				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
-			<Pagination
-				currentPage={currentPage}
-				onChangePage={(number) => setCurrentPage(number)}
-			/>
+			<Pagination />
 		</div>
 	)
 }
