@@ -14,15 +14,13 @@ const API_URL = 'https://6570330709586eff6640e311.mockapi.io/items'
 const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-	const categoryId = useSelector((state) => state.filter.categoryId)
-	const currentPage = useSelector((state) => state.filter.currentPage)
-	const sortType = useSelector((state) => state.filter.sort)
+	const { categoryId, currentPage, sort } = useSelector((state) => state.filter)
 	const searchValue = useSelector((state) => state.search.searchValue)
 
 	useEffect(() => {
 		setIsLoading(true)
-		const sortBy = sortType.sortProperty.replace('-', '')
-		const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+		const sortBy = sort.sortProperty.replace('-', '')
+		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
 		const category = categoryId > 0 ? `category=${categoryId}` : ''
 		const search = searchValue ? `&search=${searchValue}` : ''
 		axios({
@@ -33,7 +31,7 @@ const Home = () => {
 			setIsLoading(false)
 		})
 		window.scrollTo(0, 0)
-	}, [categoryId, sortType, searchValue, currentPage])
+	}, [categoryId, sort, searchValue, currentPage])
 
 	const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
 
