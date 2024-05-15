@@ -5,56 +5,51 @@ import Categories from './../components/Categories'
 import Skeleton from './../components/PizzaBlock/Skeleton'
 import Sort from './../components/Sort'
 import PizzaBlock from './../components/PizzaBlock/index'
+import Pagination from '../components/Pagination'
+
+import { useSelector } from 'react-redux'
+
+const API_URL = 'https://6570330709586eff6640e311.mockapi.io/items'
 
 const Home = () => {
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-	const [categoryId, setCategoryId] = useState(0)
-	const [sortType, setSortType] = useState({
-		name: 'популярности',
-		sortProperty: 'rating',
-	})
-
-	const API_URL = 'https://6570330709586eff6640e311.mockapi.io/items'
-	const sortBy = sortType.sortProperty.replace('-', '')
-	const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-	const category = categoryId > 0 ? `category=${categoryId}` : ''
-	// const search = searchValue ? `&search=${searchValue}` : ''
+	const categoryId = useSelector((state) => state.filter.categoryId)
+	const currentPage = useSelector((state) => state.filter.currentPage)
+	const sortType = useSelector((state) => state.filter.sort)
+	const searchValue = useSelector((state) => state.search.searchValue)
 
 	useEffect(() => {
 		setIsLoading(true)
-
+		const sortBy = sortType.sortProperty.replace('-', '')
+		const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+		const category = categoryId > 0 ? `category=${categoryId}` : ''
+		const search = searchValue ? `&search=${searchValue}` : ''
 		axios({
 			method: 'get',
-			url: `${API_URL}?${category}&sortBy=${sortBy}&order=${order}`,
+			url: `${API_URL}?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
 		}).then((res) => {
 			setItems(res.data)
 			setIsLoading(false)
 		})
 		window.scrollTo(0, 0)
-	}, [categoryId, sortType])
+	}, [categoryId, sortType, searchValue, currentPage])
 
-	// const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+	const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
 
-	// const skeletons = [...new Array(4)].map((_, index) => (
-	// 	<Skeleton key={index} />
-	// ))
+	const skeletons = [...new Array(4)].map((_, index) => (
+		<Skeleton key={index} />
+	))
 
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories
-					value={categoryId}
-					onChangeCategory={(id) => setCategoryId(id)}
-				/>
-				<Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
+				<Categories />
+				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
-			<div className="content__items">
-				{isLoading
-					? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
-					: items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-			</div>
+			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
+			<Pagination />
 		</div>
 	)
 }
