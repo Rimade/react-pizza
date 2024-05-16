@@ -1,19 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSort } from '../redux/slices/filterSlice'
 
-function Sort() {
-	const [isVisible, setIsVisible] = useState(false)
-	const list = [
-		{ name: 'популярности (DESC)', sortProperty: 'rating' },
-		{ name: 'популярности (ASC)', sortProperty: '-rating' },
-		{ name: 'цене (DESC)', sortProperty: 'price' },
-		{ name: 'цене (ASC)', sortProperty: '-price' },
-		{ name: 'алфавиту (DESC)', sortProperty: 'title' },
-		{ name: 'алфавиту (ASC)', sortProperty: '-title' },
-	]
-	const sortType = useSelector((state) => state.filter.sort)
+export const sortList = [
+	{ name: 'популярности (DESC)', sortProperty: 'rating' },
+	{ name: 'популярности (ASC)', sortProperty: '-rating' },
+	{ name: 'цене (DESC)', sortProperty: 'price' },
+	{ name: 'цене (ASC)', sortProperty: '-price' },
+	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
+	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
+]
+
+const Sort = () => {
 	const dispatch = useDispatch()
+	const sortType = useSelector((state) => state.filter.sort)
+	const sortRef = useRef()
+
+	const [isVisible, setIsVisible] = useState(false)
 
 	const onChangeSelected = (index) => {
 		dispatch(setSort(index))
@@ -21,7 +24,7 @@ function Sort() {
 	}
 
 	return (
-		<div className="sort">
+		<div ref={sortRef} className="sort">
 			<div className="sort__label">
 				<svg
 					width="10"
@@ -41,7 +44,7 @@ function Sort() {
 			{isVisible && (
 				<div className="sort__popup">
 					<ul>
-						{list.map((obj, i) => (
+						{sortList.map((obj, i) => (
 							<li
 								onClick={() => onChangeSelected(obj)}
 								key={i}
