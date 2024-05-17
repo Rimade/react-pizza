@@ -36,10 +36,12 @@ const Home = () => {
 		axios({
 			method: 'get',
 			url: `${API_URL}?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-		}).then((res) => {
-			setItems(res.data)
-			setIsLoading(false)
 		})
+			.then((res) => {
+				setItems(res.data)
+				setIsLoading(false)
+			})
+			.catch((err) => console.warn(err))
 	}
 
 	useEffect(() => {
