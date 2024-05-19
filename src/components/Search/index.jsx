@@ -3,11 +3,15 @@ import debounce from 'lodash.debounce'
 
 import styles from './Search.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSearchValue, setValue } from '../../redux/slices/search'
+import {
+	selectSearch,
+	setSearchValue,
+	setValue,
+} from '../../redux/slices/searchSlice'
 
 const Search = () => {
 	const dispatch = useDispatch()
-	const { value } = useSelector((state) => state.search)
+	const { value } = useSelector(selectSearch)
 	const inputRef = useRef()
 
 	const onClickClear = () => {

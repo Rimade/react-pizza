@@ -24,6 +24,22 @@ body {
 .content {
 	padding: 30px 0;
 
+	&__error-info {
+		text-align: center;
+		margin: 100px auto;
+		width: 500px;
+
+		h2 {
+			font-size: 32px;
+			font-weight: 700px;
+			margin-bottom: 10px;
+		}
+
+		p {
+			font-size: 20px;
+		}
+	}
+
 	&__title {
 		font-weight: 800;
 		font-size: 38px;
@@ -90,6 +106,26 @@ body {
 			}
 			flex-direction: column;
 		}
+	}
+}
+
+.fullpizza {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+
+	h2 {
+		margin-bottom: 30px;
+		margin-top: 10px;
+		font-weight: bold;
+	}
+
+	img {
+		user-select: none;
+		width: 300px;
+		height: 300px;
 	}
 }
 
@@ -334,7 +370,7 @@ body {
 	}
 
 	&--empty {
-		margin: 80px auto;
+		margin: 90px auto;
 		width: 600px;
 		text-align: center;
 
