@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Categories from './../components/Categories'
@@ -8,8 +8,9 @@ import PizzaBlock from './../components/PizzaBlock/index'
 import Pagination from '../components/Pagination'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setFilters } from '../redux/slices/filterSlice'
-import { fetchPizzas } from '../redux/slices/pizzaSlice'
+import { selectFilter, setFilters } from '../redux/slices/filterSlice'
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice'
+import { selectSearch } from '../redux/slices/searchSlice'
 
 const qs = require('qs')
 
@@ -19,9 +20,9 @@ const Home = () => {
 	const isSearch = useRef(false)
 	const isMounted = useRef(false)
 
-	const { categoryId, currentPage, sort } = useSelector((state) => state.filter)
-	const { items, status } = useSelector((state) => state.pizza)
-	const searchValue = useSelector((state) => state.search.searchValue)
+	const { categoryId, currentPage, sort } = useSelector(selectFilter)
+	const { items, status } = useSelector(selectPizzaData)
+	const { searchValue } = useSelector(selectSearch)
 
 	const getPizzas = async () => {
 		const sortBy = sort.sortProperty.replace('-', '')
