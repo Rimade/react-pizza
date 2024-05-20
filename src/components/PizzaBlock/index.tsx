@@ -5,7 +5,23 @@ import { Link } from 'react-router-dom'
 
 const typeNames = ['тонкое', 'традиционное']
 
-const PizzaBlock = ({ id, title, price, sizes, types, imageUrl }) => {
+interface PizzaBlockProps {
+	id: string
+	title: string
+	price: number
+	sizes: number[]
+	types: number[]
+	imageUrl: string
+}
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
+	id,
+	title,
+	price,
+	sizes,
+	types,
+	imageUrl,
+}) => {
 	const dispatch = useDispatch()
 	const cartItem = useSelector(selectCartItemById(id))
 	const [activeType, setActiveType] = useState(0)
