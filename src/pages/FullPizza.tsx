@@ -3,8 +3,12 @@ import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 
-const FullPizza = () => {
-	const [pizza, setPizza] = useState()
+const FullPizza: React.FC = () => {
+	const [pizza, setPizza] = useState<{
+		imageUrl: string
+		title: string
+		price: number
+	}>()
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -21,7 +25,7 @@ const FullPizza = () => {
 			}
 		}
 		fetchPizza()
-	}, [])
+	}, [id])
 
 	if (!pizza) {
 		return (
