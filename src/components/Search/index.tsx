@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { ChangeEvent, useCallback, useRef } from 'react'
 // @ts-ignore
 import debounce from 'lodash.debounce'
 
@@ -28,7 +28,7 @@ const Search: React.FC = () => {
 		[]
 	)
 
-	const onChangeInput = (event: any) => {
+	const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
 		dispatch(setValue(event.target.value))
 		updateSearchValue(event.target.value)
 	}
