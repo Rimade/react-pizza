@@ -4,11 +4,8 @@ import debounce from 'lodash.debounce'
 
 import styles from './Search.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	selectSearch,
-	setSearchValue,
-	setValue,
-} from '../../redux/slices/searchSlice'
+import { selectSearch, setValue } from '../../redux/slices/searchSlice'
+import { setSearchValue } from '../../redux/slices/filterSlice'
 
 const Search: React.FC = () => {
 	const dispatch = useDispatch()
@@ -25,7 +22,7 @@ const Search: React.FC = () => {
 		debounce((str: string) => {
 			dispatch(setSearchValue(str))
 		}, 600),
-		[]
+		[value]
 	)
 
 	const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
