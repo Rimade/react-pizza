@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Categories from '../components/Categories'
@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import {
 	// FilterSliceState,
 	selectFilter,
+	setCategoryId,
 	setFilters,
 } from '../redux/slices/filterSlice'
 import {
@@ -105,11 +106,15 @@ const Home = () => {
 		<Skeleton key={index} />
 	))
 
+	const onChangeCategory = useCallback((idx: number) => {
+		dispatch(setCategoryId(idx))
+	}, [])
+
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories />
-				<Sort />
+				<Categories value={categoryId} onChangeCategory={onChangeCategory} />
+				<Sort value={sort} />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			{status === 'error' ? (
