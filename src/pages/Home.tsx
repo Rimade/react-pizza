@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import Categories from '../components/Categories'
 import Skeleton from '../components/PizzaBlock/Skeleton'
@@ -7,24 +8,24 @@ import Sort, { sortList } from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock/index'
 import Pagination from '../components/Pagination'
 
-import { useSelector } from 'react-redux'
-import {
-	// FilterSliceState,
-	setCategoryId,
-	// setFilters,
-} from '../redux/filter/slice'
+import { setCategoryId } from '../redux/filter/slice'
 import { selectFilter, selectSearch } from '../redux/filter/selectors'
 import { useAppDispatch } from '../redux/store'
 import { selectPizzaData } from '../redux/pizza/selectors'
 import { fetchPizzas } from '../redux/pizza/asyncActions'
+import { add } from '../utils/math'
+
 const qs = require('qs')
-// import { SearchPizzaParams } from '../redux/pizza/types'
 
 const Home: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const isSearch = useRef(false)
 	const isMounted = useRef(false)
+
+	import('../utils/math').then((math) => {
+		console.log(math.add(1, 2))
+	})
 
 	const { categoryId, currentPage, sort } = useSelector(selectFilter)
 	const { items, status } = useSelector(selectPizzaData)
@@ -35,7 +36,6 @@ const Home: React.FC = () => {
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
 		const category = categoryId > 0 ? `category=${categoryId}` : ''
 		const search = searchValue ? `&search=${searchValue}` : ''
-
 		dispatch(
 			fetchPizzas({
 				sortBy,
