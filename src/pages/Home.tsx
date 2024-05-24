@@ -10,21 +10,17 @@ import Pagination from '../components/Pagination'
 import { useSelector } from 'react-redux'
 import {
 	// FilterSliceState,
-	selectFilter,
 	setCategoryId,
-	setFilters,
-} from '../redux/slices/filterSlice'
-import {
-	SearchPizzaParams,
-	fetchPizzas,
-	selectPizzaData,
-} from '../redux/slices/pizzaSlice'
-import { selectSearch } from '../redux/slices/filterSlice'
+	// setFilters,
+} from '../redux/filter/slice'
+import { selectFilter, selectSearch } from '../redux/filter/selectors'
 import { useAppDispatch } from '../redux/store'
-
+import { selectPizzaData } from '../redux/pizza/selectors'
+import { fetchPizzas } from '../redux/pizza/asyncActions'
 const qs = require('qs')
+// import { SearchPizzaParams } from '../redux/pizza/types'
 
-const Home = () => {
+const Home: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const isSearch = useRef(false)

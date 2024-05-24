@@ -1,15 +1,12 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Sort, SortPropertyEnum, setSort } from '../redux/slices/filterSlice'
-
-type SortItem = {
-	name: string
-	sortProperty: SortPropertyEnum
-}
-
-type SortPopupProps = {
-	value: Sort
-}
+import { setSort } from '../redux/filter/slice'
+import {
+	Sort,
+	SortItem,
+	SortPopupProps,
+	SortPropertyEnum,
+} from '../redux/filter/types'
 
 // type PopupClick = MouseEvent & {
 // 	composedPath: () => Node[]
