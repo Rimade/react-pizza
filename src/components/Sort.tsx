@@ -1,14 +1,10 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Sort, SortPropertyEnum, setSort } from '../redux/slices/filterSlice'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectSort, setSort } from '../redux/slices/filterSlice'
 
 type SortItem = {
 	name: string
-	sortProperty: SortPropertyEnum
-}
-
-type SortPopupProps = {
-	value: Sort
+	sortProperty: string
 }
 
 // type PopupClick = MouseEvent & {
@@ -16,16 +12,17 @@ type SortPopupProps = {
 // }
 
 export const sortList: SortItem[] = [
-	{ name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
-	{ name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
-	{ name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
-	{ name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
-	{ name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
-	{ name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
+	{ name: 'популярности (DESC)', sortProperty: 'rating' },
+	{ name: 'популярности (ASC)', sortProperty: '-rating' },
+	{ name: 'цене (DESC)', sortProperty: 'price' },
+	{ name: 'цене (ASC)', sortProperty: '-price' },
+	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
+	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
 ]
 
-const SortPopup: React.FC<SortPopupProps> = memo(({ value }) => {
+const Sort = () => {
 	const dispatch = useDispatch()
+	const sortType = useSelector(selectSort)
 	const sortRef = useRef<HTMLDivElement>(null)
 
 	const [isVisible, setIsVisible] = useState(false)
@@ -62,7 +59,7 @@ const SortPopup: React.FC<SortPopupProps> = memo(({ value }) => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
+				<span onClick={() => setIsVisible(!isVisible)}>{sortType.name}</span>
 			</div>
 			{isVisible && (
 				<div className="sort__popup">
@@ -72,7 +69,7 @@ const SortPopup: React.FC<SortPopupProps> = memo(({ value }) => {
 								onClick={() => onChangeSelected(obj)}
 								key={i}
 								className={
-									value.sortProperty === obj.sortProperty ? 'active' : ''
+									sortType.sortProperty === obj.sortProperty ? 'active' : ''
 								}
 							>
 								{obj.name}
@@ -83,6 +80,6 @@ const SortPopup: React.FC<SortPopupProps> = memo(({ value }) => {
 			)}
 		</div>
 	)
-})
+}
 
-export default SortPopup
+export default Sort
