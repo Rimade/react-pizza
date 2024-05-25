@@ -23,7 +23,3 @@ export type SortItem = {
 	name: string
 	sortProperty: SortPropertyEnum
 }
-
-export type SortPopupProps = {
-	value: Sort
-}

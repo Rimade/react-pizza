@@ -1,31 +1,28 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import qs from 'qs'
 
-import Categories from '../components/Categories'
-import Skeleton from '../components/PizzaBlock/Skeleton'
-import Sort, { sortList } from '../components/Sort'
-import PizzaBlock from '../components/PizzaBlock/index'
-import Pagination from '../components/Pagination'
+import {
+	Categories,
+	Skeleton,
+	Sort,
+	PizzaBlock,
+	Pagination,
+} from '../components'
 
+import { sortList } from '../components/Sort'
 import { setCategoryId } from '../redux/filter/slice'
 import { selectFilter, selectSearch } from '../redux/filter/selectors'
 import { useAppDispatch } from '../redux/store'
 import { selectPizzaData } from '../redux/pizza/selectors'
 import { fetchPizzas } from '../redux/pizza/asyncActions'
-import { add } from '../utils/math'
-
-const qs = require('qs')
 
 const Home: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const isSearch = useRef(false)
 	const isMounted = useRef(false)
-
-	import('../utils/math').then((math) => {
-		console.log(math.add(1, 2))
-	})
 
 	const { categoryId, currentPage, sort } = useSelector(selectFilter)
 	const { items, status } = useSelector(selectPizzaData)
@@ -89,11 +86,11 @@ const Home: React.FC = () => {
 	// }, [])
 
 	useEffect(() => {
-		// if (!isSearch.current) {
-		getPizzas()
-		// }
+		if (!isSearch.current) {
+			getPizzas()
+		}
 
-		// isSearch.current = false
+		isSearch.current = false
 	}, [categoryId, sort, searchValue, currentPage])
 
 	const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
